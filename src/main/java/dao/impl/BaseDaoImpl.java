@@ -135,12 +135,12 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
                     //如果前后不同,拼接sql字符串
                     prefix.append(field.getName()).append(" = ? ,");
                     params.add(field.get(t));
+                    prefix.setCharAt(prefix.length()-1,' ');
 
                 }
             }
         }
         if(count==0) return;
-        prefix.setCharAt(prefix.length()-1,' ');
         prefix.append("where id = ?");
         params.add(tIDFile.get(t));
         String sql = prefix.toString();
