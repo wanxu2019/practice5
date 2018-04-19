@@ -141,8 +141,8 @@ public class ProjectServlet extends HttpServlet {
             doFilter(result,appName);
             ProjectService projectService = new ProjectService(userinfo, appName);
             result= projectService.updateProjectRecord(projectID,params.get("projectName"),params.get("memo"),
-                    params.get("appResult"),params.get  ("tempProjectID"),req.getParameter("appContent"),
-                    req.getParameter("reservation"));
+                    params.get("appResult"),params.get  ("tempProjectID"),params.get("appContent"),
+                    params.get("reservation"));
         }catch (Exception e){
             e.printStackTrace();
             result.setError(ErrorCons.PARAMS_ERROR);
