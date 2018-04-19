@@ -48,5 +48,5 @@
            username="xjtucad"
            password="xjtucad"
            driverClassName="com.mysql.jdbc.Driver"
-           url="jdbc:mysql://115.154.191.2:3306/innovation_project_manager?serverTimezone=GMT"/>
+           url="jdbc:mysql://58.206.100.146:3306/innovation_project_manager?serverTimezone=GMT"/>
 </Context>

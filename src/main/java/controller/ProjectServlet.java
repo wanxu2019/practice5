@@ -26,6 +26,9 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin:","*");
+        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         HttpSession httpSession = req.getSession();
         User userinfo = (User) httpSession.getAttribute("userInfo");
         Result result = new Result();
@@ -86,6 +89,9 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin:","*");
+        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         HttpSession httpSession = req.getSession();
         User userinfo = (User) httpSession.getAttribute("userInfo");
         Result result = new Result();
@@ -114,6 +120,9 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin:","*");
+        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         HttpSession httpSession = req.getSession();
         req.setCharacterEncoding("utf-8");
         User userinfo = (User) httpSession.getAttribute("userInfo");
@@ -144,6 +153,9 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin:","*");
+        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         HttpSession httpSession = req.getSession();
         User userinfo = (User) httpSession.getAttribute("userInfo");
         Result result = new Result();
@@ -175,7 +187,7 @@ public class ProjectServlet extends HttpServlet {
         }
     }
 
-    Map<String,String> getPraFromReq(String string) throws UnsupportedEncodingException {
+    private Map<String,String> getPraFromReq(String string) throws UnsupportedEncodingException {
         Map<String, String> mapRequest = new HashMap<String, String>();
         String[] arrResult = string.split("&");
         if(arrResult!=null&&arrResult.length>0){
