@@ -24,9 +24,15 @@ public class JDBCUtils {
 
     }
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
         //从数据源中获取数据库连接
-        return dataSource.getConnection();
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            System.out.println("数据库连接错误");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void release(Connection connection, Statement statement, ResultSet resultSet){

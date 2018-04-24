@@ -5,6 +5,7 @@ import model.TempLink;
 
 import java.util.List;
 
+@Deprecated
 public interface ITempLinkDao extends IBaseDao<TempLink> {
 
     List<TempLink> findAll();
@@ -14,5 +15,7 @@ public interface ITempLinkDao extends IBaseDao<TempLink> {
     TempLink findOne(String tempProjectID);
 
     List<TempLink> findListByProject(int projectID);
+
+
 
 }

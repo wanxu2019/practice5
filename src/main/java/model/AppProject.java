@@ -1,10 +1,9 @@
 package model;
 
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppProject {
     /**
@@ -18,7 +17,7 @@ public class AppProject {
     /**
      * 创建时间
      */
-    private Timestamp createDate;
+    private Date createDate;
     /**
      * 用户名
      */
@@ -42,10 +41,60 @@ public class AppProject {
     private String reservation;
 
 
-    /**
-     * 当前域
-     */
-    private String domain;
+
+    private final static Map<String,String> fieldMap = new HashMap<String, String>(){
+        {
+            put("id","int(11) NOT NULL AUTO_INCREMENT COMMENT '当前项目ID'");
+            put("projectName","varchar(255) DEFAULT NULL COMMENT '当前项目名，可以重复'");
+            put("createDate","datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '当前项目创建时间'");
+            put("username","varchar(255) DEFAULT NULL COMMENT '当前用户名'");
+            put("memo"," varchar(255) DEFAULT NULL COMMENT '项目备注'");
+            put("appResult","mediumtext COMMENT '项目报告结果'");
+            put("appContent","text COMMENT '当前项目的内容'");
+            put("reservation","text COMMENT '预留字段'");
+        }
+    };
+    private final static String pkString = "PRIMARY KEY (`id`)";
+    public AppProject() {
+    }
+
+    public AppProject(String projectName, String username, String memo, String appResult, String appContent, String reservation) {
+        this.projectName = projectName;
+        this.username = username;
+        this.memo = memo;
+        this.appResult = appResult;
+        this.appContent = appContent;
+        this.reservation = reservation;
+    }
+
+    public AppProject(int id, String projectName,  String username, String memo, String appResult, String appContent, String reservation) {
+        this.id = id;
+        this.projectName = projectName;
+        this.username = username;
+        this.memo = memo;
+        this.appResult = appResult;
+        this.appContent = appContent;
+        this.reservation = reservation;
+    }
+
+    public AppProject(int id, String projectName, Date createDate, String username, String memo, String appResult, String appContent, String reservation) {
+        this.id = id;
+        this.projectName = projectName;
+        this.createDate = createDate;
+        this.username = username;
+        this.memo = memo;
+        this.appResult = appResult;
+        this.appContent = appContent;
+        this.reservation = reservation;
+    }
+
+    public static Map<String, String> getFieldMap() {
+        return fieldMap;
+    }
+
+    public static String getPkString() {
+        return pkString;
+    }
 
     public int getId() {
         return id;
@@ -63,14 +112,13 @@ public class AppProject {
         this.projectName = projectName;
     }
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-
 
     public String getMemo() {
         return memo;
@@ -96,13 +144,6 @@ public class AppProject {
         this.username = username;
     }
 
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
 
     public String getAppContent() {
         return appContent;

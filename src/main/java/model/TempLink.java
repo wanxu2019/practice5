@@ -1,5 +1,5 @@
 package model;
-
+@Deprecated
 public class TempLink {
     private int id;
     private String tempProjectID;

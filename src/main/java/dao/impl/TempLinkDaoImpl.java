@@ -6,7 +6,7 @@ import model.TempLink;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Deprecated
 public class TempLinkDaoImpl  extends BaseDaoImpl<TempLink>  implements ITempLinkDao {
 
     public TempLinkDaoImpl(String appName) {

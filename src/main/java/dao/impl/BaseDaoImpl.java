@@ -4,16 +4,18 @@ import dao.IBaseDao;
 import model.Result;
 import utils.JDBCUtils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
+@Deprecated
 public class BaseDaoImpl<T> implements IBaseDao<T> {
     protected Class<T> clz =null;
     protected String tableName;
-
 
     protected String id = "id";
     Connection conn=null;
@@ -28,25 +30,21 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
         setTableName(clz.getName());
     }
 
-//    @SuppressWarnings("unchecked")
-//    private Class<T> getClz() {
-//
-//    }
 
     public void setTableName(String tableName){
         this.tableName =tableName ;
     }
 
+    final static String SQL_INSERT = "INSERT INTO %s VALUES ()";
+
     public T add(T t) throws SQLException, IllegalAccessException {
         Field[] fields = this.clz.getDeclaredFields();
-        StringBuffer prefix = new StringBuffer("insert into "+this.tableName);
-        StringBuffer left = new StringBuffer("(");
-        StringBuffer right = new StringBuffer("(");
         List<Object> params = new ArrayList<Object>();
         Field tIDFile = null;
+        List<String> names = new ArrayList<String>();
         for (Field field:fields) {
             field.setAccessible(true);
-            if(field.getName().equals("id")){
+            if(field.getName().equals(id)){
                 //如果当前属性是ID，跳过
                 tIDFile = field;
                 continue;
@@ -54,16 +52,11 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
             if(field.get(t)==null){
                 continue;
             }
-            left.append(field.getName()).append(',');
-            right.append("?,");
+            names.add(field.getName());
             field.setAccessible(true);
             params.add(field.get(t));
         }
-        //将最后一位多余的','修改为')'
-        left.setCharAt(left.length()-1,')');
-        right.setCharAt(right.length()-1,')');
-
-        String sql = prefix.append(left).append("values").append(right).toString();
+        String sql = "";
         System.out.println("拼凑得到的sql字符串："+sql);
 
         conn = JDBCUtils.getConnection();

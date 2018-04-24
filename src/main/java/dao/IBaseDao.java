@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
  public interface IBaseDao<T>{
     //添加
     public T add(T t) throws SQLException, IllegalAccessException;
