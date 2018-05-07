@@ -178,7 +178,7 @@ public class AppProjectDao {
                         rs.getDate("createDate"),
                         rs.getString("username"),
                         rs.getString("memo"),
-                        rs.getString("AND"),
+                        rs.getString("appResult"),
                         rs.getString("appContent"),
                         rs.getString("reservation")));
             }

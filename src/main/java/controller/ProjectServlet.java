@@ -28,7 +28,7 @@ public class ProjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        User userinfo = (User) httpSession.getAttribute("userInfo");
+        String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
         Result result = new Result();
         String projectID = req.getParameter("id");
         resp.setCharacterEncoding("utf-8");
@@ -52,29 +52,14 @@ public class ProjectServlet extends HttpServlet {
             if (projectID != null && projectID.length() > 0) {
                 //根据projectID查询
                 int id = Integer.valueOf(projectID);
-                result = projectService.getAppProjectbyId(id,userinfo.getUsername());
+                result = projectService.getAppProjectbyId(id,username);
                 notEnd = false;
             }
 
 
-//            String domainAll = req.getParameter("domainAll");
-//            String domain = req.getParameter("domain");
-//            if (notEnd && domain != null && domain.length() > 0) {
-//                //根据群组查询
-//                result = projectService.get(domain);
-//                notEnd = false;
-//            }
-//
-//            String tempProjectID = req.getParameter("tempProjectID");
-//            if (notEnd && tempProjectID != null && tempProjectID.length() > 0) {
-//                //根据模板ID查询
-//                result = projectService.getProjectByTempProjectID(tempProjectID);
-//                notEnd = false;
-//            }
-
             if (notEnd) {
                 //根据userAll查询
-                result = projectService.getAppProjectList(userinfo.getUsername());
+                result = projectService.getAppProjectList(username);
                 notEnd = false;
             }
 
@@ -95,7 +80,8 @@ public class ProjectServlet extends HttpServlet {
         resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         HttpSession httpSession = req.getSession();
-        User userinfo = (User) httpSession.getAttribute("userInfo");
+        String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
+
         Result result = new Result();
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json,charset=UTF-8");
@@ -117,7 +103,7 @@ public class ProjectServlet extends HttpServlet {
             result = projectService.newProjectRecord(
                     new AppProject(
                             req.getParameter("projectName"),
-                            userinfo.getUsername(),
+                            username,
                             req.getParameter("appResult"),
                             req.getParameter("tempProjectID"),
                             req.getParameter("appContent"),
@@ -137,7 +123,8 @@ public class ProjectServlet extends HttpServlet {
 
         HttpSession httpSession = req.getSession();
         req.setCharacterEncoding("utf-8");
-        User userinfo = (User) httpSession.getAttribute("userInfo");
+        String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
+
         Result result = new Result();
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json,charset=UTF-8");
@@ -160,12 +147,12 @@ public class ProjectServlet extends HttpServlet {
             result = projectService.updateProjectRecord(
                     new AppProject(projectID,
                             params.get("projectName"),
-                            userinfo.getUsername(),
+                            username,
                             params.get("memo"),
                             params.get("appResult"),
                             params.get("appContent"),
                             params.get("reservation"))
-            ,userinfo.getUsername());
+            ,username);
 
         } catch (Exception e) {
             e.printStackTrace();
