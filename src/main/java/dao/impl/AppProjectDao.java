@@ -119,26 +119,38 @@ public class AppProjectDao {
     }
 
     public void update(AppProject appProject, String username) {
-        String sql = "UPDATE * from " + this.tableName.get()
-                + " set projectName ?, username = ?,memo=?.appResult=?,appContent=?,reservation=? "
-                + "where id=? and username =?";
+        StringBuilder stringBuilder = new StringBuilder("UPDATE " + this.tableName.get()).append(" set ");
         List<Object> params = new ArrayList<Object>();
-        int i=0;
-        if(appProject.getProjectName()!=null)
-            params.add(i++, appProject.getProjectName());
-        if(appProject.getUsername()!=null)
-            params.add(i++, appProject.getUsername());
-        if(appProject.getMemo()!=null)
-            params.add(i++, appProject.getMemo());
-        if(appProject.getAppResult()!=null)
-            params.add(i++, appProject.getAppResult());
-        if(appProject.getAppContent()!=null)
-            params.add(i++, appProject.getAppContent());
-        if(appProject.getReservation()!=null)
-            params.add(i++, appProject.getReservation());
-        params.add(i++, appProject.getId());
-        params.add(i++, username);
-        doUpdate(sql,params);
+        if(appProject.getProjectName()!=null){
+            stringBuilder.append("projectName =?,");
+            params.add(appProject.getProjectName());
+
+        }
+        if(appProject.getUsername()!=null){
+            stringBuilder.append("username =?,");
+            params.add(appProject.getUsername());
+        }
+
+        if(appProject.getMemo()!=null){
+            stringBuilder.append("memo =?,");
+            params.add( appProject.getMemo());
+        }
+        if(appProject.getAppResult()!=null){
+            stringBuilder.append("appResult=?,");
+            params.add(appProject.getAppResult());
+        }
+        if(appProject.getAppContent()!=null){
+            stringBuilder.append("appContent=?");
+            params.add(appProject.getAppContent());
+        }
+        if(appProject.getReservation()!=null){
+            stringBuilder.append("reservation=?,");
+            params.add(appProject.getReservation());
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length()-1).append(" where id=? and username =?");
+        params.add( appProject.getId());
+        params.add(username);
+        doUpdate(stringBuilder.toString(),params);
     }
 
     public void delete(int projectID, String username) {
@@ -150,8 +162,41 @@ public class AppProjectDao {
     }
 
     public AppProject add(AppProject appProject) {
-        String sql = "INSERT INTO " + this.tableName.get() + " VALUES (?,?,?,?,?,?,?)";
-        return null;
+        String sql = "INSERT INTO " + this.tableName.get() + "(projectName,username,memo,appResult,appContent,reservation) VALUES (?,?,?,?,?,?)";
+        System.out.println("执行SQL查询语句"+sql);
+
+        List<Object> params = new ArrayList<Object>();
+        params.add(appProject.getProjectName());
+        params.add( appProject.getUsername());
+        params.add( appProject.getMemo());
+        params.add( appProject.getAppResult());
+        params.add( appProject.getAppContent());
+        params.add(appProject.getReservation());
+        System.out.println("执行更新的SQL语句"+sql);
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = JDBCUtils.getConnection();
+            //3、创建命令执行对象
+            ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            //4、执行
+            if (params != null && params.size() > 0) {
+                for (int i = 0; i < params.size(); i++) {
+                    ps.setObject(i + 1, params.get(i));
+                }
+            }
+            ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            rs.next();
+            appProject.setId(rs.getInt(1));
+            System.out.println("appProject.getId() = " + appProject.getId());
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.release(conn, ps, rs);
+        }
+        return appProject;
     }
 
     public List<AppProject> doQuery(String sql, List<Object> params) {
