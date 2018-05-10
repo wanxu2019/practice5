@@ -169,7 +169,7 @@ public class ProjectServlet extends HttpServlet {
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
 
         HttpSession httpSession = req.getSession();
-        User userinfo = (User) httpSession.getAttribute("userInfo");
+        String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
         Result result = new Result();
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json,charset=UTF-8");
@@ -188,7 +188,7 @@ public class ProjectServlet extends HttpServlet {
             }
             int projectID = Integer.parseInt(params.get("id"));
             ProjectService projectService = new ProjectService(toolName);
-            result = projectService.deleteProjectRecord(projectID,userinfo.getUsername());
+            result = projectService.deleteProjectRecord(projectID,username);
         } catch (Exception e) {
             e.printStackTrace();
             result.setError(ErrorCons.PARAMS_ERROR);

@@ -138,6 +138,7 @@ public class ProjectService {
         Result result  =new Result();
         try {
             projectDao.delete(projectID,username);
+            result.setState(true);
         } catch (Exception e) {
             e.printStackTrace();
             result.setError(ErrorCons.DB_ERROR);

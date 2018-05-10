@@ -154,7 +154,7 @@ public class AppProjectDao {
     }
 
     public void delete(int projectID, String username) {
-        String sql = "delete * from " + this.tableName.get() + " WHERE  id = ?  username = ?";
+        String sql = "delete from " + this.tableName.get() + " WHERE  id = ? AND username = ?";
         List<Object> params = new ArrayList<Object>();
         params.add(0, projectID);
         params.add(1, username);
@@ -222,10 +222,10 @@ public class AppProjectDao {
                         rs.getString("projectName"),
                         rs.getDate("createDate"),
                         rs.getString("username"),
-                        rs.getString("memo"),
-                        rs.getString("appResult"),
-                        rs.getString("appContent"),
-                        rs.getString("reservation")));
+                        rs.getString("memo")==null?"":rs.getString("memo"),
+                        rs.getString("appResult")==null?"":rs.getString("appResult"),
+                        rs.getString("appContent")==null?"":rs.getString("appContent"),
+                        rs.getString("reservation")==null?"":rs.getString("reservation")));
             }
             return result;
         } catch (SQLException e) {
