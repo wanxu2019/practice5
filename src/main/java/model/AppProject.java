@@ -40,6 +40,8 @@ public class AppProject {
      */
     private String reservation="";
 
+    private String resultKey;
+
 
 
     private final static Map<String,String> fieldMap = new HashMap<String, String>(){
@@ -52,6 +54,7 @@ public class AppProject {
             put("appResult","mediumtext COMMENT '项目报告结果'");
             put("appContent","text COMMENT '当前项目的内容'");
             put("reservation","text COMMENT '预留字段'");
+            put("resultKey"," varchar(255) DEFAULT NULL COMMENT '记录密钥，用来获取共享数据' ");
         }
     };
     private final static String pkString = "PRIMARY KEY (`id`)";
@@ -67,7 +70,7 @@ public class AppProject {
         this.reservation = reservation;
     }
 
-    public AppProject(int id, String projectName,  String username, String memo, String appResult, String appContent, String reservation) {
+    public AppProject(int id, String projectName,  String username, String memo, String appResult, String appContent, String reservation,String resultKey) {
         this.id = id;
         this.projectName = projectName;
         this.username = username;
@@ -75,6 +78,7 @@ public class AppProject {
         this.appResult = appResult;
         this.appContent = appContent;
         this.reservation = reservation;
+        this.resultKey=resultKey;
     }
 
     public AppProject(int id, String projectName, Date createDate, String username, String memo, String appResult, String appContent, String reservation) {
@@ -160,6 +164,14 @@ public class AppProject {
 
     public void setReservation(String reservation) {
         this.reservation = reservation;
+    }
+
+    public String getResultKey() {
+        return resultKey;
+    }
+
+    public void setResultKey(String resultKey) {
+        this.resultKey = resultKey;
     }
 }
 

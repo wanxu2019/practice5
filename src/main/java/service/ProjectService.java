@@ -1,5 +1,6 @@
 package service;
 
+import com.sun.deploy.ref.AppRef;
 import dao.impl.AppProjectDao;
 import model.AppProject;
 import model.Result;
@@ -39,6 +40,28 @@ public class ProjectService {
         }
     }
 
+    public Result getAppProjectByKey(String key){
+        Result result = new Result();
+        result.setState(false);
+        try {
+            //得到查询结果
+            AppProject appProject = projectDao.getProjectByKey(key);
+            if (appProject == null) {
+                //无结果
+                result.setError(ErrorCons.NORESULT_ERROR);
+            } else {
+                //权限正确，返回正确结果
+                result.setState(true);
+                result.setContent(appProject);
+            }
+            return result;
+        } catch (Exception e) {
+//            数据库错误
+            e.printStackTrace();
+            result.setError(ErrorCons.DB_ERROR);
+            return result;
+        }
+    }
     /**
      * 通过用户名获取相应的记录
      * @return Result对象
@@ -63,54 +86,6 @@ public class ProjectService {
         }
     }
 
-//    /**
-//     * 通过当前用户的群组获取项目列表
-//     *
-//     * @return
-//     */
-//    @Deprecated
-//    public Result getProjectByDomain(String domain) {
-//        Result result = new Result();
-//        try {
-//            if (userInfo.getPermission().equals("superAdmin")) {
-//                //如果是超级管理员，返回根据传递的参数返回对应的值
-//                if (domain.equals("-1")) {
-//                    result.setContent(projectDao.findAll());
-//                } else {
-//                    result.setContent(projectDao.findListByDomain(domain));
-//                }
-//                result.setState(true);
-//            } else {
-//                if (userInfo.getPermission().equals("admin") && (domain.equals("-1") || userInfo.getDomain().equals(domain))) {
-//                    //如果是管理员，返回群组
-//                    result.setContent(projectDao.findListByDomain(userInfo.getDomain()));
-//                    result.setState(true);
-//                } else {
-//                    result.setError(ErrorCons.PERMISSION_ERROR);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            result.setError(ErrorCons.DB_ERROR);
-//        } finally {
-//            return result;
-//        }
-//    }
-
-//    @Deprecated
-//    public Result getProjectByTempProjectID(String tempProjectID) {
-//        Result result = new Result();
-//        try {
-//            //获得对应的记录
-//            TempLink tempLink = tempLinkDao.findOne(tempProjectID);
-//            //查询到对应的appProject
-////            result = getProjectbyId(tempLink.getProjectID());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            result.setError("数据库异常");
-//        }
-//        return result;
-//    }
 
 
     public Result newProjectRecord(AppProject appProject) {
@@ -132,6 +107,25 @@ public class ProjectService {
             result.setError(ErrorCons.DB_ERROR);
             return result;
         }
+    }
+    public Result updateProjectRecord(int oldID,int newID,String resultKey,String username){
+        Result result = new Result();
+        AppProject appProject = new AppProject();
+        try {
+        if(oldID!=-1){
+            appProject.setId(oldID);
+            projectDao.update(appProject,username);
+        }
+        if(newID!=-1){
+            appProject.setId(newID);
+            appProject.setResultKey(resultKey);
+            projectDao.update(appProject,username);
+
+        }}catch (Exception e) {
+            e.printStackTrace();
+            result.setError(ErrorCons.DB_ERROR);
+        }
+        return result;
     }
 
     public Result deleteProjectRecord(int projectID,String username){

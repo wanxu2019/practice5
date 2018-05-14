@@ -31,11 +31,13 @@ public class ProjectServlet extends HttpServlet {
         String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
         Result result = new Result();
         String projectID = req.getParameter("id");
+        String resultKey = req.getParameter("resultKey");
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json,charset=UTF-8");
         boolean notEnd = true;
         try {
 
+            //获取App的名称
             String toolName = req.getParameter("toolName");
             if (toolName == null || toolName.length() == 0) {
                 String[] strings = req.getHeader("referer").split("/");
@@ -44,6 +46,7 @@ public class ProjectServlet extends HttpServlet {
 
             ProjectService projectService = new ProjectService(toolName);
 
+            //通过ID获取
             if (projectID != null && projectID.length() > 0) {
                 //根据projectID查询
                 int id = Integer.valueOf(projectID);
@@ -51,6 +54,10 @@ public class ProjectServlet extends HttpServlet {
                 notEnd = false;
             }
 
+            if(resultKey!=null&&resultKey.length()>0){
+                result = projectService.getAppProjectByKey(resultKey);
+                notEnd = false;
+            }
 
             if (notEnd) {
                 //根据userAll查询
@@ -71,9 +78,6 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.addHeader("Access-Control-Allow-Origin:", "*");
-        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
-        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         HttpSession httpSession = req.getSession();
         String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
 
@@ -100,7 +104,7 @@ public class ProjectServlet extends HttpServlet {
                             req.getParameter("projectName"),
                             username,
                             req.getParameter("appResult"),
-                            req.getParameter("tempProjectID"),
+                            req.getParameter("memo"),
                             req.getParameter("appContent"),
                             req.getParameter("reservation"))
             );
@@ -111,10 +115,6 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.addHeader("Access-Control-Allow-Origin:", "*");
-        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
-        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
 
         HttpSession httpSession = req.getSession();
         req.setCharacterEncoding("utf-8");
@@ -146,7 +146,8 @@ public class ProjectServlet extends HttpServlet {
                             params.get("memo"),
                             params.get("appResult"),
                             params.get("appContent"),
-                            params.get("reservation"))
+                            params.get("reservation"),
+                            params.get("resultKey"))
             ,username);
 
         } catch (Exception e) {
@@ -159,10 +160,6 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.addHeader("Access-Control-Allow-Origin:", "*");
-        resp.addHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
-        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
-
         HttpSession httpSession = req.getSession();
         String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
         Result result = new Result();

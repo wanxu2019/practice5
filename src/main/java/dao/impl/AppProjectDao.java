@@ -23,10 +23,7 @@ public class AppProjectDao {
      * @return
      */
     public void confirmTable(){
-        Set<String> set = new HashSet<String>();
-        for (Field field : AppProject.class.getFields()) {
-            set.add(field.getName());
-        }
+        Set<String> set = new HashSet<String>(AppProject.getFieldMap().keySet());
         Connection conn = null;
         PreparedStatement ps =null;
         ResultSet rs = null;
@@ -117,6 +114,15 @@ public class AppProjectDao {
             return null;
         return appProjects.get(0);
     }
+    public AppProject getProjectByKey(String key) {
+        String sql = "select * from " + this.tableName.get() + " where resultKey = ?";
+        List<Object> params = new ArrayList<Object>();
+        params.add(0, key);
+        List<AppProject> appProjects =doQuery(sql,params);
+        if(appProjects==null||appProjects.size()<1)
+            return null;
+        return appProjects.get(0);
+    }
 
     public void update(AppProject appProject, String username) {
         StringBuilder stringBuilder = new StringBuilder("UPDATE " + this.tableName.get()).append(" set ");
@@ -125,10 +131,6 @@ public class AppProjectDao {
             stringBuilder.append("projectName =?,");
             params.add(appProject.getProjectName());
 
-        }
-        if(appProject.getUsername()!=null){
-            stringBuilder.append("username =?,");
-            params.add(appProject.getUsername());
         }
 
         if(appProject.getMemo()!=null){
@@ -147,7 +149,11 @@ public class AppProjectDao {
             stringBuilder.append("reservation=?,");
             params.add(appProject.getReservation());
         }
-        stringBuilder.deleteCharAt(stringBuilder.length()-1).append(" where id=? and username =?");
+        if(appProject.getResultKey()!=null){
+            stringBuilder.append("resultKey=?,");
+            params.add(appProject.getResultKey());
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length()-1).append(" where id=? and username = ?");
         params.add( appProject.getId());
         params.add(username);
         doUpdate(stringBuilder.toString(),params);
