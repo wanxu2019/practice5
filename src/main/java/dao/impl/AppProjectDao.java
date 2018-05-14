@@ -4,10 +4,9 @@ import model.AppProject;
 import utils.JDBCUtils;
 import utils.NameUtils;
 
-import java.io.File;
-import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class AppProjectDao {
 
@@ -226,7 +225,7 @@ public class AppProjectDao {
                 result.add(new AppProject(
                         rs.getInt("id"),
                         rs.getString("projectName"),
-                        rs.getDate("createDate"),
+                        (java.util.Date) rs.getObject("createDate"),
                         rs.getString("username"),
                         rs.getString("memo")==null?"":rs.getString("memo"),
                         rs.getString("appResult")==null?"":rs.getString("appResult"),
