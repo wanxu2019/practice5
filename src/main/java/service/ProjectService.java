@@ -5,7 +5,6 @@ import dao.impl.AppProjectDao;
 import model.AppProject;
 import model.Result;
 import utils.ErrorCons;
-import xjtucad.model.User;
 
 import java.util.List;
 
@@ -121,11 +120,15 @@ public class ProjectService {
                 appProject.setResultKey(resultKey);
             }
             projectDao.update(appProject,username);
+            result.setState(true);
+            return result;
+
         }catch (Exception e) {
             e.printStackTrace();
             result.setError(ErrorCons.DB_ERROR);
+            return result;
+
         }
-        return result;
     }
 
     public Result deleteProjectRecord(int projectID,String username){

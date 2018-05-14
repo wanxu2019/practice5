@@ -5,7 +5,6 @@ import model.AppProject;
 import model.Result;
 import service.ProjectService;
 import utils.ErrorCons;
-import xjtucad.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,14 +35,12 @@ public class ProjectServlet extends HttpServlet {
         resp.setContentType("application/json,charset=UTF-8");
         boolean notEnd = true;
         try {
-
             //获取App的名称
             String toolName = req.getParameter("toolName");
             if (toolName == null || toolName.length() == 0) {
                 String[] strings = req.getHeader("referer").split("/");
                 toolName = strings[3];
             }
-
             ProjectService projectService = new ProjectService(toolName);
 
             //通过ID获取

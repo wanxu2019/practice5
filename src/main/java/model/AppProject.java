@@ -13,7 +13,7 @@ public class AppProject {
     /**
      * 项目名
      */
-    private String projectName="";
+    private String projectName;
     /**
      * 创建时间
      */
@@ -25,20 +25,20 @@ public class AppProject {
     /**
      * 备注
      */
-    private String memo="";
+    private String memo;
     /**
      * 项目结果，特指word片段
      */
-    private String appResult="";
+    private String appResult;
 
     /**
      * 预留内容字段
      */
-    private String appContent="";
+    private String appContent;
     /**
      * 预留内容字段2
      */
-    private String reservation="";
+    private String reservation;
 
     private String resultKey;
 
