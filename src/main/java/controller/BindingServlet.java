@@ -17,9 +17,7 @@ import java.util.Map;
 public class BindingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String oldIDStr = req.getParameter("oldID");
-        int oldID = -1;
-        if(oldIDStr!=null) oldID=Integer.parseInt(oldIDStr);
+        String oldKey  = req.getParameter("oldID");
         String newIDStr = req.getParameter("newID");
         int newID = -1;
         if(newIDStr!=null) newID=Integer.parseInt(newIDStr);
@@ -31,7 +29,7 @@ public class BindingServlet extends HttpServlet {
         String username = ((Map<String,String>) req.getSession().getAttribute("userInfo")).get("username");
         String resultKey = req.getParameter("resultKey");
         ProjectService projectService = new ProjectService(toolName);
-        Result result = projectService.updateProjectRecord(oldID,newID,resultKey,username);
+        Result result = projectService.updateProjectRecord(oldKey,newID,resultKey,username);
         resp.getWriter().println(JSON.toJSONString(result));
     }
 }

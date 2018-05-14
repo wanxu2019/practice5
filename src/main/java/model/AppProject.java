@@ -81,7 +81,7 @@ public class AppProject {
         this.resultKey=resultKey;
     }
 
-    public AppProject(int id, String projectName, Date createDate, String username, String memo, String appResult, String appContent, String reservation) {
+    public AppProject(int id, String projectName, Date createDate, String username, String memo, String appResult, String appContent, String reservation,String resultKey) {
         this.id = id;
         this.projectName = projectName;
         this.createDate = createDate;
@@ -90,6 +90,7 @@ public class AppProject {
         this.appResult = appResult;
         this.appContent = appContent;
         this.reservation = reservation;
+        this.resultKey = resultKey;
     }
 
     public static Map<String, String> getFieldMap() {

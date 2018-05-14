@@ -108,20 +108,20 @@ public class ProjectService {
             return result;
         }
     }
-    public Result updateProjectRecord(int oldID,int newID,String resultKey,String username){
+    public Result updateProjectRecord(String oldKey,int newID,String resultKey,String username){
         Result result = new Result();
-        AppProject appProject = new AppProject();
         try {
-        if(oldID!=-1){
-            appProject.setId(oldID);
+            AppProject appProject = projectDao.getProjectByKey(oldKey);
+            if(appProject!=null) {
+                appProject.setResultKey("");
+                projectDao.update(appProject,appProject.getUsername());
+            }
+            appProject = projectDao.getOwnerById(newID,username);
+            if(appProject!=null){
+                appProject.setResultKey(resultKey);
+            }
             projectDao.update(appProject,username);
-        }
-        if(newID!=-1){
-            appProject.setId(newID);
-            appProject.setResultKey(resultKey);
-            projectDao.update(appProject,username);
-
-        }}catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
             result.setError(ErrorCons.DB_ERROR);
         }
