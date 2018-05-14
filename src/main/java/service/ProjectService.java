@@ -49,7 +49,7 @@ public class ProjectService {
         //从用户信息中获取用户名
         try {
             List<AppProject> list = projectDao.findListByUsername(username);
-            if (list == null || list.size() < 1 ) {
+            if (list == null) {
                 result.setError(ErrorCons.NORESULT_ERROR);
             } else {
                 result.setState(true);
