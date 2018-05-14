@@ -103,8 +103,8 @@ public class ProjectServlet extends HttpServlet {
                     new AppProject(
                             req.getParameter("projectName"),
                             username,
-                            req.getParameter("appResult"),
                             req.getParameter("memo"),
+                            req.getParameter("appResult"),
                             req.getParameter("appContent"),
                             req.getParameter("reservation"))
             );
