@@ -33,7 +33,6 @@ public class ProjectServlet extends HttpServlet {
         String projectID = req.getParameter("id");
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json,charset=UTF-8");
-//        resp.getWriter().print(JSON.toJSONString(result));
         boolean notEnd = true;
         try {
 
@@ -44,10 +43,6 @@ public class ProjectServlet extends HttpServlet {
             }
 
             ProjectService projectService = new ProjectService(toolName);
-//            if (toolName == null || toolName.length() < 1) {
-//                result.setContent("请传入toolName参数");
-//                notEnd = false;
-//            }
 
             if (projectID != null && projectID.length() > 0) {
                 //根据projectID查询

@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.regex.Pattern;
+
 public class NameUtils {
     public static String toCamelCase(String underScoreStr){
         StringBuilder sb= new StringBuilder();
@@ -20,12 +22,17 @@ public class NameUtils {
     }
     public static String toUnderScore(String camelCaseStr){
         StringBuilder sb= new StringBuilder();
+        boolean allUpper = true;
         for (int i = 0; i < camelCaseStr.length(); i++) {
-            if(camelCaseStr.charAt(i)>'z') {
+            if(camelCaseStr.charAt(i)<'a') {
                 sb.append('_');
+            }else {
+                allUpper=false;
             }
-            sb.append(camelCaseStr.charAt(i));
+            sb.append(Character.toLowerCase(camelCaseStr.charAt(i)));
         }
+        if(allUpper) return camelCaseStr.toLowerCase();
+        if(sb.charAt(0)=='_') sb.deleteCharAt(0);
         return sb.toString();
     }
 }

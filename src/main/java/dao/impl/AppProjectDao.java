@@ -140,7 +140,7 @@ public class AppProjectDao {
             params.add(appProject.getAppResult());
         }
         if(appProject.getAppContent()!=null){
-            stringBuilder.append("appContent=?");
+            stringBuilder.append("appContent=?,");
             params.add(appProject.getAppContent());
         }
         if(appProject.getReservation()!=null){
