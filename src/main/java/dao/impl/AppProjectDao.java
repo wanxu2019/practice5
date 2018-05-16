@@ -225,13 +225,14 @@ public class AppProjectDao {
                 result.add(new AppProject(
                         rs.getInt("id"),
                         rs.getString("projectName"),
-                        (java.util.Date) rs.getObject("createDate"),
+                        (java.util.Date) rs.getObject("createTime"),
                         rs.getString("username"),
                         rs.getString("memo")==null?"":rs.getString("memo"),
                         rs.getString("appResult")==null?"":rs.getString("appResult"),
                         rs.getString("appContent")==null?"":rs.getString("appContent"),
                         rs.getString("reservation")==null?"":rs.getString("reservation"),
-                        rs.getString("resultKey")==null?"":rs.getString("resultKey")));
+                        rs.getString("resultKey")==null?"":rs.getString("resultKey"),
+                        (java.util.Date) rs.getObject("editTime")));
             }
             return result;
         } catch (SQLException e) {

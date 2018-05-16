@@ -17,7 +17,7 @@ public class AppProject {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Date createTime;
     /**
      * 用户名
      */
@@ -42,19 +42,21 @@ public class AppProject {
 
     private String resultKey;
 
+    private Date editTime;
 
 
     private final static Map<String,String> fieldMap = new HashMap<String, String>(){
         {
             put("id","int(11) NOT NULL AUTO_INCREMENT COMMENT '当前项目ID'");
             put("projectName","varchar(255) DEFAULT NULL COMMENT '当前项目名，可以重复'");
-            put("createDate","datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '当前项目创建时间'");
+            put("createTime","datetime DEFAULT CURRENT_TIMESTAMP COMMENT '当前项目创建时间'");
             put("username","varchar(255) DEFAULT NULL COMMENT '当前用户名'");
             put("memo"," varchar(255) DEFAULT NULL COMMENT '项目备注'");
             put("appResult","mediumtext COMMENT '项目报告结果'");
             put("appContent","text COMMENT '当前项目的内容'");
             put("reservation","text COMMENT '预留字段'");
             put("resultKey"," varchar(255) DEFAULT NULL COMMENT '记录密钥，用来获取共享数据' ");
+            put("editTime"," datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '项目的更新时间' ");
         }
     };
     private final static String pkString = "PRIMARY KEY (`id`)";
@@ -81,16 +83,17 @@ public class AppProject {
         this.resultKey=resultKey;
     }
 
-    public AppProject(int id, String projectName, Date createDate, String username, String memo, String appResult, String appContent, String reservation,String resultKey) {
+    public AppProject(int id, String projectName, Date createTime, String username, String memo, String appResult, String appContent, String reservation,String resultKey,Date editTime) {
         this.id = id;
         this.projectName = projectName;
-        this.createDate = createDate;
+        this.createTime = createTime;
         this.username = username;
         this.memo = memo;
         this.appResult = appResult;
         this.appContent = appContent;
         this.reservation = reservation;
         this.resultKey = resultKey;
+        this.editTime = editTime;
     }
 
     public static Map<String, String> getFieldMap() {
@@ -117,12 +120,12 @@ public class AppProject {
         this.projectName = projectName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getMemo() {
@@ -173,6 +176,14 @@ public class AppProject {
 
     public void setResultKey(String resultKey) {
         this.resultKey = resultKey;
+    }
+
+    public Date getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(Date editTime) {
+        this.editTime = editTime;
     }
 }
 

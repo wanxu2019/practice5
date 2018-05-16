@@ -118,8 +118,8 @@ public class ProjectService {
             appProject = projectDao.getOwnerById(newID,username);
             if(appProject!=null){
                 appProject.setResultKey(resultKey);
+                projectDao.update(appProject,username);
             }
-            projectDao.update(appProject,username);
             result.setState(true);
             return result;
 

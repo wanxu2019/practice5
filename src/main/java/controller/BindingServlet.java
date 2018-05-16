@@ -26,6 +26,9 @@ public class BindingServlet extends HttpServlet {
             String[] strings = req.getHeader("referer").split("/");
             toolName = strings[3];
         }
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("application/json,charset=UTF-8");
+
         String username = ((Map<String,String>) req.getSession().getAttribute("userInfo")).get("username");
         String resultKey = req.getParameter("resultKey");
         ProjectService projectService = new ProjectService(toolName);
