@@ -30,7 +30,7 @@ public class ProjectServlet extends HttpServlet {
         String username = ((Map<String,String>) httpSession.getAttribute("userInfo")).get("username");
         Result result = new Result();
         String projectID = req.getParameter("id");
-        String resultKey = req.getParameter("resultKey");
+        String resultKeys = req.getParameter("resultKeys");
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json,charset=UTF-8");
         boolean notEnd = true;
@@ -51,8 +51,8 @@ public class ProjectServlet extends HttpServlet {
                 notEnd = false;
             }
 
-            if(resultKey!=null&&resultKey.length()>0){
-                result = projectService.getAppProjectByKey(resultKey);
+            if(resultKeys!=null&&resultKeys.length()>0){
+                result = projectService.getAppProjectByKey(resultKeys);
                 notEnd = false;
             }
 

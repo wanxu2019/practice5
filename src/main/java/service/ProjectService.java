@@ -6,6 +6,7 @@ import model.AppProject;
 import model.Result;
 import utils.ErrorCons;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectService {
@@ -39,19 +40,25 @@ public class ProjectService {
         }
     }
 
-    public Result getAppProjectByKey(String key){
+    public Result getAppProjectByKey(String keys){
         Result result = new Result();
         result.setState(false);
         try {
+            List<AppProject> appProjectList = new ArrayList<AppProject>();
             //得到查询结果
-            AppProject appProject = projectDao.getProjectByKey(key);
-            if (appProject == null) {
+            String[] resultKeyArr = keys.split(";");
+            for (String s : resultKeyArr) {
+                AppProject appProject = projectDao.getProjectByKey(s);
+                if(appProject!=null)
+                    appProjectList.add(appProject);
+            }
+            if (resultKeyArr == null) {
                 //无结果
                 result.setError(ErrorCons.NORESULT_ERROR);
             } else {
                 //权限正确，返回正确结果
                 result.setState(true);
-                result.setContent(appProject);
+                result.setContent(appProjectList);
             }
             return result;
         } catch (Exception e) {
